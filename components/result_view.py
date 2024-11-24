@@ -22,7 +22,7 @@ class ResultsView:
         # Tạo một LabelFrame với tiêu đề "Results" để chứa toàn bộ nội dung
         frame = ttk.LabelFrame(
             self.parent,
-            text="Results",
+            text="TỐI ƯU HÓA SẢN PHẨM MANG THEO",
             padding=15,
             bootstyle="primary"  # Kiểu giao diện (theme)
         )
@@ -32,7 +32,7 @@ class ResultsView:
         # Nút "Solve Knapsack Problem" để gọi hàm solve_callback
         ttk.Button(
             frame,
-            text="Solve Knapsack Problem",
+            text="Giải Bài Toán Knapsack",
             command=self.solve_callback,  # Gọi hàm callback khi nhấn nút
             bootstyle="success-outline",  # Kiểu giao diện của nút
             padding=10  # Thêm khoảng cách xung quanh chữ
@@ -41,7 +41,7 @@ class ResultsView:
         # LabelFrame con để hiển thị chi tiết lời giải
         results_frame = ttk.LabelFrame(
             frame,
-            text="Solution Details",
+            text="KẾT QUẢ",
             padding=10,
             bootstyle="info"  # Kiểu giao diện
         )
@@ -73,11 +73,11 @@ class ResultsView:
         
         # Nếu không có lời giải khả thi, hiển thị thông báo và kết thúc
         if not solution:
-            self.result_text.insert(tk.END, "No feasible solution found.\n")
+            self.result_text.insert(tk.END, "Không tìm thấy lời giải khả thi.\n")
             return
             
         # Hiển thị tiêu đề "Selected Items"
-        self.result_text.insert(tk.END, "Selected Items:\n", "header")
+        self.result_text.insert(tk.END, "Các Sản Phẩm Được Chọn:\n", "header")
         self.result_text.insert(tk.END, "="*50 + "\n\n")  # Dòng phân cách
 
         # Lặp qua từng item trong lời giải và hiển thị thông tin chi tiết
@@ -85,19 +85,19 @@ class ResultsView:
             self.result_text.insert(
                 tk.END, 
                 f"• {item.name}\n"  # Tên item
-                f"  Weight: {item.weight:.2f} kg\n"  # Trọng lượng
-                f"  Value: ${item.value:.2f}\n"  # Giá trị
-                f"  Value/Weight: ${item.ratio:.2f}/kg\n\n"  # Giá trị trên trọng lượng
+                f"  KHỐI LƯỢNG: {item.weight:.2f} kg\n"  # Trọng lượng
+                f"  GIÁ TRỊ: ${item.value:.2f}\n"  # Giá trị
+                f"  Giá trị/Trọng lượng: ${item.ratio:.2f}/kg\n\n"  # Giá trị trên trọng lượng
             )
         
         # Hiển thị dòng phân cách và tiêu đề "Summary"
         self.result_text.insert(tk.END, "="*50 + "\n")
-        self.result_text.insert(tk.END, "\nSummary:\n", "header")
+        self.result_text.insert(tk.END, "Tóm Tắt:\n", "header")
         
         # Hiển thị thông tin tổng hợp lời giải
         self.result_text.insert(
             tk.END,
-            f"Total Value: ${summary['total_value']:.2f}\n"  # Tổng giá trị
-            f"Total Weight: {summary['total_weight']:.2f} kg / {summary['capacity']:.2f} kg\n"  # Tổng trọng lượng và dung lượng tối đa
-            f"Capacity Used: {summary['capacity_used']:.1f}%\n"  # Phần trăm dung lượng sử dụng
+            f"Tổng Giá Trị: ${summary['total_value']:.2f}\n"  # Tổng giá trị
+            f"Tổng Trọng Lượng: {summary['total_weight']:.2f} kg / {summary['capacity']:.2f} kg\n"  # Tổng trọng lượng và dung lượng tối đa
+            f"Dung Lượng Sử Dụng: {summary['capacity_used']:.1f}%\n"  # Phần trăm dung lượng sử dụng
         )

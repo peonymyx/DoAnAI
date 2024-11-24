@@ -30,14 +30,14 @@ class ItemForm:
         # Frame tạo khung, padding 10px
         frame = ttk.LabelFrame(
             self.parent,
-            text="Add New Item",
+            text="THÊM SẢN PHẨM",
             padding=10,
             bootstyle="secondary"
         )
         frame.pack(fill=tk.X, pady=10)
 
         # Label và textbox cho trường Name (tên), tương ứng biến name_var
-        ttk.Label(frame, text="Item Name:").pack(anchor=tk.W)
+        ttk.Label(frame, text="TÊN SẢN PHẨM:").pack(anchor=tk.W)
         ttk.Entry(
             frame,
             textvariable=self.name_var,
@@ -52,7 +52,7 @@ class ItemForm:
         weight_frame = ttk.Frame(input_frame)
         weight_frame.pack(side=tk.LEFT, expand=tk.YES, padx=(0, 5))
         
-        ttk.Label(weight_frame, text="Weight (kg):").pack(anchor=tk.W)
+        ttk.Label(weight_frame, text="KHỐI LƯỢNG (kg):").pack(anchor=tk.W)
         ttk.Entry(
             weight_frame,
             textvariable=self.weight_var,
@@ -63,7 +63,7 @@ class ItemForm:
         value_frame = ttk.Frame(input_frame)
         value_frame.pack(side=tk.LEFT, expand=tk.YES)
         
-        ttk.Label(value_frame, text="Value ($):").pack(anchor=tk.W)
+        ttk.Label(value_frame, text="GIÁ TRỊ HÀNG HÓA ($):").pack(anchor=tk.W)
         ttk.Entry(
             value_frame,
             textvariable=self.value_var,
@@ -73,7 +73,7 @@ class ItemForm:
         # Nút "Thêm", padding 10px về phía trên. Nhấn nút này sẽ gọi hàm on_add_item
         ttk.Button(
             frame,
-            text="Add Item",
+            text="THÊM HÀNG HÓA",
             command=self.on_add_item,
             bootstyle="success"
         ).pack(fill=tk.X, pady=(10, 0))

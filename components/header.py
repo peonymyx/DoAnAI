@@ -22,7 +22,7 @@ class Header:
         # Tiêu đề chính nằm trong frame header, cỡ chữ 24 in đậm; cách tiêu đề phụ 10px
         title = ttk.Label(
             header_frame,
-            text="Knapsack Problem Solver",
+            text="Quản lý hàng hóa trong kho vận",
             font=("Helvetica", 24, "bold"),
             bootstyle="inverse-primary"
         )
@@ -31,7 +31,7 @@ class Header:
         # Tiêu đề phụ nằm trong frame header, cỡ chữ 12 
         subtitle = ttk.Label(
             header_frame,
-            text="Optimize your selection using Greedy Algorithm",
+            text="Tối ưu hóa không gian xe tải để đạt giá trị vận chuyển tối đa",
             font=("Helvetica", 12),
             bootstyle="inverse-secondary"
         )

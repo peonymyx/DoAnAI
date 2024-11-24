@@ -21,7 +21,7 @@ class ItemsList:
         # Tạo LabelFrame để bao bọc Treeview và nút xóa
         frame = ttk.LabelFrame(
             self.parent,
-            text="Added Items",  # Tiêu đề của khung
+            text="SẢN PHẨM ĐÃ THÊM",  # Tiêu đề của khung
             padding=10,  # Khoảng cách bên trong
             bootstyle="info"  # Áp dụng style bootstrap
         )
@@ -40,10 +40,10 @@ class ItemsList:
         )
         
         # Đặt tiêu đề cho từng cột
-        self.tree.heading("name", text="Name")  # Cột "Name"
-        self.tree.heading("weight", text="Weight (kg)")  # Cột "Weight"
-        self.tree.heading("value", text="Value ($)")  # Cột "Value"
-        self.tree.heading("ratio", text="Value/Weight")  # Cột "Value/Weight"
+        self.tree.heading("name", text="TÊN")  # Cột "Name"
+        self.tree.heading("weight", text="KHỐI LƯỢNG (kg)")  # Cột "Weight"
+        self.tree.heading("value", text="GIÁ TRỊ ($)")  # Cột "Value"
+        self.tree.heading("ratio", text="GIÁ TRỊ/KHỐI LƯỢNG")  # Cột "Value/Weight"
         
         # Cấu hình độ rộng và căn giữa nội dung các cột
         for col in columns:
@@ -55,7 +55,7 @@ class ItemsList:
         # Tạo nút "Remove Selected" để xóa mục được chọn
         ttk.Button(
             frame,
-            text="Remove Selected",  # Văn bản trên nút
+            text="XÓA SẢN PHẨM",  # Văn bản trên nút
             command=self.on_remove_item,  # Gọi hàm xử lý xóa mục
             bootstyle="danger"  # Áp dụng style bootstrap
         ).pack(fill=tk.X)  # Nút chiếm toàn bộ chiều ngang

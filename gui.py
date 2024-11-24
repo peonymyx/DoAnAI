@@ -49,7 +49,7 @@ class KnapsackGUI:
         # Cột bên trái
         left_frame = ttk.LabelFrame(
             content_frame,
-            text="Input Section",  # Tiêu đề
+            text="THÊM SẢN PHẨM",
             padding=15,
             bootstyle="primary"
         )
