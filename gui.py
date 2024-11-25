@@ -11,6 +11,7 @@ from components.header import Header  # Header của giao diện
 from components.capacity_input import CapacityInput  # Input để nhập dung lượng túi
 from components.item_form import ItemForm  # Form để nhập thông tin item
 from components.item_list import ItemsList  # Danh sách các item đã thêm
+from components.test_case_view import TestCaseView # Chọn một trong các test case
 from components.result_view import ResultsView  # Hiển thị kết quả giải bài toán
 
 # Lớp chính để tạo giao diện bài toán Knapsack
@@ -23,7 +24,7 @@ class KnapsackGUI:
         """
         self.root = root
         self.root.title("Knapsack Problem Solver")  # Tiêu đề cửa sổ
-        self.root.geometry("900x700")  # Kích thước cửa sổ
+        self.root.geometry("900x750")  # Kích thước cửa sổ
         
         # Áp dụng giao diện "darkly" từ ttkbootstrap
         self.style = ttk.Style(theme="darkly")
@@ -66,7 +67,13 @@ class KnapsackGUI:
         self.items_list.create()
         
         # Cột bên phải
-        self.results_view = ResultsView(content_frame, self.solve)  # Hiển thị kết quả
+        right_frame = ttk.Frame(content_frame)
+        right_frame.pack(side=LEFT, fill=BOTH, expand=YES, padx=(0, 10))
+
+        self.test_case_view = TestCaseView(right_frame, self.add_items) # Chọn test case
+        self.test_case_view.create()
+
+        self.results_view = ResultsView(right_frame, self.solve)  # Hiển thị kết quả
         self.results_view.create()
 
     def add_item(self, item_data):
@@ -97,6 +104,25 @@ class KnapsackGUI:
             # Hiển thị thông báo lỗi
             messagebox.showerror("Error", str(e))
             return False
+        
+    def add_items(self, case):
+        """
+        Đọc một file text chứa dữ liệu item trong test case và thêm vào danh sách.
+
+        :param case: Tên file (không gồm phần mở rộng).
+        """
+        with open(f"cases\\{case}.txt", 'r') as case_file:        
+            weights = case_file.readline().split() # Dòng 1: Khối lượng
+            values = case_file.readline().split() # Dòng 2: Giá trị
+            self.capacity_case = float(case_file.readline()) # Dòng 3: Dung lượng túi
+
+        for index in range(len(weights)):
+            item_data = {
+                'name': index,
+                'weight': float(weights[index]),
+                'value': float(values[index])
+            }
+            self.items_list.add_item(item_data)
 
     def remove_item(self):
         """
@@ -112,9 +138,12 @@ class KnapsackGUI:
         """
         try:
             # Lấy dung lượng túi
-            capacity = self.capacity_input.get_capacity()
-            if capacity <= 0:
-                raise ValueError("Capacity must be positive")
+            if self.capacity_case:
+                capacity = self.capacity_case
+            else:
+                capacity = self.capacity_input.get_capacity()
+                if capacity <= 0:
+                    raise ValueError("Capacity must be positive")
                 
             # Khởi tạo lại solver và đặt dung lượng túi
             self.solver = KnapsackSolver()

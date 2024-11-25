@@ -52,14 +52,25 @@ class ItemsList:
         # Đặt Treeview vào khung và cấu hình khoảng cách
         self.tree.pack(fill=tk.BOTH, expand=tk.YES, pady=(0, 10))
 
-        # Tạo nút "Remove Selected" để xóa mục được chọn
+        delete_frame = ttk.Frame(frame)
+        delete_frame.pack(fill=tk.X)
+
+        # Tạo nút để xóa mục được chọn
         ttk.Button(
-            frame,
+            delete_frame,
             text="XÓA SẢN PHẨM",  # Văn bản trên nút
             command=self.on_remove_item,  # Gọi hàm xử lý xóa mục
             bootstyle="danger"  # Áp dụng style bootstrap
-        ).pack(fill=tk.X)  # Nút chiếm toàn bộ chiều ngang
-        
+        ).pack(side=tk.LEFT, expand=tk.YES, padx=10)  # Nút chiếm toàn bộ chiều ngang
+
+        # Tạo nút để đặt lại danh sách
+        ttk.Button(
+            delete_frame,
+            text="ĐẶT LẠI DANH SÁCH",
+            command=self.on_clear_items,
+            bootstyle="danger"
+        ).pack(side=tk.RIGHT, expand=tk.YES, padx=10)
+
         return frame  # Trả về khung đã tạo
     
     def add_item(self, item_data):
@@ -86,6 +97,12 @@ class ItemsList:
         selected = self.tree.selection()  # Lấy mục đang được chọn
         if selected and self.remove_callback():  # Nếu có mục được chọn và callback trả về True
             self.tree.delete(selected)  # Xóa mục khỏi Treeview
+
+    def on_clear_items(self):
+        """
+        Hàm xử lý xóa hết tất cả các mục trong Treeview
+        """
+        self.tree.delete(*self.tree.get_children())
             
     def get_all_items(self):
         """

@@ -48,16 +48,23 @@ class ResultsView:
         # Đặt results_frame chiếm toàn bộ không gian còn lại
         results_frame.pack(fill=tk.BOTH, expand=tk.YES)
 
+        # Khởi tạo scrollbar cho widget Text
+        scroll = ttk.Scrollbar(results_frame)
+        scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
         # Widget Text để hiển thị kết quả chi tiết
         self.result_text = tk.Text(
             results_frame,
             height=20,  # Chiều cao mặc định
             width=40,  # Chiều rộng mặc định
             wrap=tk.WORD,  # Tự động xuống dòng theo từ
-            font=("Helvetica", 10)  # Font chữ
+            font=("Helvetica", 10),  # Font chữ
+            yscrollcommand=scroll.set
         )
-        # Đặt widget Text chiếm toàn bộ không gian của results_frame
-        self.result_text.pack(fill=tk.BOTH, expand=tk.YES)
+        
+        # Đặt widget Text chiếm toàn bộ không gian của results_frame và cấu hình scrollbar
+        self.result_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.YES)
+        scroll.config(command=self.result_text.yview)
 
         return frame  # Trả về frame đã tạo
 
@@ -84,10 +91,10 @@ class ResultsView:
         for item in solution:
             self.result_text.insert(
                 tk.END, 
-                f"• {item.name}\n"  # Tên item
-                f"  KHỐI LƯỢNG: {item.weight:.2f} kg\n"  # Trọng lượng
-                f"  GIÁ TRỊ: ${item.value:.2f}\n"  # Giá trị
-                f"  Giá trị/Trọng lượng: ${item.ratio:.2f}/kg\n\n"  # Giá trị trên trọng lượng
+                f"• {item.name}\n"
+                f"  KHỐI LƯỢNG: {item.weight:.2f} kg\n"
+                f"  GIÁ TRỊ: ${item.value:.2f}\n"
+                f"  Giá trị/Trọng lượng: ${item.ratio:.2f}/kg\n\n"
             )
         
         # Hiển thị dòng phân cách và tiêu đề "Summary"
@@ -97,7 +104,7 @@ class ResultsView:
         # Hiển thị thông tin tổng hợp lời giải
         self.result_text.insert(
             tk.END,
-            f"Tổng Giá Trị: ${summary['total_value']:.2f}\n"  # Tổng giá trị
-            f"Tổng Trọng Lượng: {summary['total_weight']:.2f} kg / {summary['capacity']:.2f} kg\n"  # Tổng trọng lượng và dung lượng tối đa
-            f"Dung Lượng Sử Dụng: {summary['capacity_used']:.1f}%\n"  # Phần trăm dung lượng sử dụng
+            f"Tổng Giá Trị: ${summary['total_value']:.2f}\n"
+            f"Tổng Trọng Lượng: {summary['total_weight']:.2f} kg / {summary['capacity']:.2f} kg\n" 
+            f"Dung Lượng Sử Dụng: {summary['capacity_used']:.1f}%\n"
         )
