@@ -5,14 +5,14 @@ import ttkbootstrap as ttk
 
 class ItemForm:
     '''
-    Form dùng cho tác vụ thêm mới một đối tượng vào knapsack.
+    Form dùng cho tác vụ thêm mới một item vào knapsack.
     '''
     def __init__(self, parent, add_item_callback):
         '''
-        Khởi tạo form thêm đối tượng.
+        Khởi tạo form thêm item.
 
         :param parent: Container chứa form.
-        :param add_item_callback: Hàm xử lý thêm đối tượng.
+        :param add_item_callback: Hàm xử lý thêm item.
         '''
         self.parent = parent
         self.add_item_callback = add_item_callback
@@ -83,7 +83,7 @@ class ItemForm:
     def on_add_item(self):
         '''
         Nhận các giá trị đã nhập trong textbox của form, sau đó xử lý và tổng hợp thành
-        dữ liệu của đối tượng sẽ thêm vào knapsack.
+        dữ liệu của item sẽ thêm vào knapsack.
         '''
         item_data = {
             'name': self.name_var.get().strip(),

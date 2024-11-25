@@ -8,7 +8,7 @@ class Header:
     '''
     def __init__(self, parent):
         '''
-        Khởi tạo đối tượng khung tiêu đề (header) của giao diện.
+        Khởi tạo khung tiêu đề (header) của giao diện.
 
         :param parent: Container chứa khung tiêu đề.
         '''
