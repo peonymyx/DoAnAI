@@ -29,14 +29,27 @@ class ResultsView:
         # Đặt frame này về bên trái, chiếm toàn bộ chiều dọc và mở rộng nếu có không gian
         frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.YES)
 
-        # Nút "Solve Knapsack Problem" để gọi hàm solve_callback
+         # Tạo Combobox để chọn phương pháp giải
+        methods = ["Giá trị (Value)", "Trọng lượng (Weight)", "Tỷ lệ Giá trị/Trọng lượng (Ratio)"]
+        self.method_var = tk.StringVar()
+        self.method_dropdown = ttk.Combobox(
+            frame,
+            textvariable=self.method_var,
+            values=methods,
+            state="readonly",
+            bootstyle="info"
+        )
+        self.method_dropdown.set("Chọn phương pháp giải")
+        self.method_dropdown.pack(fill=tk.X, pady=(0, 15))
+
+        # Nút "Solve Knapsack Problem"
         ttk.Button(
             frame,
             text="Giải Bài Toán Knapsack",
-            command=self.solve_callback,  # Gọi hàm callback khi nhấn nút
-            bootstyle="success-outline",  # Kiểu giao diện của nút
-            padding=10  # Thêm khoảng cách xung quanh chữ
-        ).pack(fill=tk.X, pady=(0, 15))  # Nút chiếm toàn bộ chiều ngang và có khoảng cách dưới
+            command=self.solve_callback,
+            bootstyle="success-outline",
+            padding=10
+        ).pack(fill=tk.X, pady=(0, 15))
 
         # LabelFrame con để hiển thị chi tiết lời giải
         results_frame = ttk.LabelFrame(
@@ -67,6 +80,11 @@ class ResultsView:
         scroll.config(command=self.result_text.yview)
 
         return frame  # Trả về frame đã tạo
+    def get_selected_method(self):
+        """
+        Lấy phương pháp giải bài toán được chọn từ giao diện.
+        """
+        return self.method_var.get()
 
     def display_results(self, solution, summary):
         """

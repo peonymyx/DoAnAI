@@ -158,8 +158,18 @@ class KnapsackGUI:
                 )
                 self.solver.add_item(item)
             
-            # Giải bài toán Knapsack bằng thuật toán Greedy
-            solution = self.solver.solve_greedy()
+            # Lấy phương pháp giải từ giao diện
+            selected_method = self.results_view.get_selected_method()
+            
+            # Giải bài toán Knapsack theo phương pháp được chọn
+            if selected_method == "Giá trị (Value)":
+                solution = self.solver.solve_greedy()  # Giải theo giá trị
+            elif selected_method == "Trọng lượng (Weight)":
+                solution = self.solver.solve_greedy_by_weight()  # Giải theo trọng lượng
+            elif selected_method == "Tỷ lệ Giá trị/Trọng lượng (Ratio)":
+                solution = self.solver.solve_greedy()  # Giải theo tỷ lệ
+            else:
+                raise ValueError("Please select a valid solving method")
             
             # Tạo thông tin tóm tắt kết quả
             summary = {
