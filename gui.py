@@ -163,7 +163,7 @@ class KnapsackGUI:
             
             # Giải bài toán Knapsack theo phương pháp được chọn
             if selected_method == "Giá trị (Value)":
-                solution = self.solver.solve_greedy()  # Giải theo giá trị
+                solution = self.solver.solve_greedy_by_value()  # Giải theo giá trị
             elif selected_method == "Trọng lượng (Weight)":
                 solution = self.solver.solve_greedy_by_weight()  # Giải theo trọng lượng
             elif selected_method == "Tỷ lệ Giá trị/Trọng lượng (Ratio)":
