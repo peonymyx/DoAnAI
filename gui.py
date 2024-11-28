@@ -72,6 +72,7 @@ class KnapsackGUI:
 
         self.test_case_view = TestCaseView(right_frame, self.add_items) # Chọn test case
         self.test_case_view.create()
+        self.capacity_case = None # Khởi tạo biến lưu trữ sức chứa theo test case
 
         self.results_view = ResultsView(right_frame, self.solve)  # Hiển thị kết quả
         self.results_view.create()
@@ -113,7 +114,7 @@ class KnapsackGUI:
         """
         if case == '0':
             self.capacity_case = None
-            return False
+            return
 
         with open(f"cases\\{case}.txt", 'r') as case_file:        
             weights = case_file.readline().split() # Dòng 1: Khối lượng
@@ -127,6 +128,7 @@ class KnapsackGUI:
                 'value': float(values[index])
             }
             self.items_list.add_item(item_data)
+
         return True
 
     def remove_item(self):
@@ -143,11 +145,12 @@ class KnapsackGUI:
         """
         try:
             # Lấy dung lượng túi
-            capacity = self.capacity_input.get_capacity()
-            if capacity <= 0:
-                raise ValueError("Capacity must be positive")
             if self.capacity_case:
                 capacity = self.capacity_case
+            else:
+                capacity = self.capacity_input.get_capacity()
+                if capacity <= 0:
+                    raise ValueError("Capacity must be positive")
                 
             # Khởi tạo lại solver và đặt dung lượng túi
             self.solver = KnapsackSolver()
