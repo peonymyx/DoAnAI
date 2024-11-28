@@ -42,9 +42,20 @@ class TestCaseView:
             text="CHỌN CASE",
             command=self.on_add_items,
             bootstyle="success"
-        ).pack(fill=tk.X, pady=(10, 0))
+        ).pack(side=tk.LEFT, padx=5, pady=(10, 0), expand=tk.YES)
+
+        ttk.Button(
+            frame,
+            text="HỦY CHỌN CASE",
+            command=self.on_reset_case,
+            bootstyle="danger"
+        ).pack(side=tk.RIGHT, padx=5, pady=(10, 0), expand=tk.YES)
 
         return frame
     
     def on_add_items(self):
         self.add_items_callback(self.selected_case.get())
+
+    def on_reset_case(self):
+        self.selected_case.set('0')
+        self.on_add_items()
