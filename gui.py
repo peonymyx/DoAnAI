@@ -63,7 +63,7 @@ class KnapsackGUI:
         self.item_form = ItemForm(left_frame, self.add_item)  # Form nhập thông tin item
         self.item_form.create()
         
-        self.items_list = ItemsList(left_frame, self.remove_item)  # Danh sách các item
+        self.items_list = ItemsList(left_frame, self.remove_item, self.edit_item)  # Danh sách các item
         self.items_list.create()
         
         # Cột bên phải
@@ -79,10 +79,10 @@ class KnapsackGUI:
 
     def add_item(self, item_data):
         """
-        Thêm một item vào danh sách.
+        Thêm hoặc cập nhật một item trong danh sách.
 
         :param item_data: Dữ liệu của item (name, weight, value).
-        :return: True nếu thêm thành công, False nếu có lỗi.
+        :return: True nếu thêm/cập nhật thành công, False nếu có lỗi.
         """
         try:
             name = item_data['name']  # Lấy tên item
@@ -97,8 +97,14 @@ class KnapsackGUI:
             if value <= 0:
                 raise ValueError("Value must be positive")
             
-            # Thêm item vào danh sách
-            self.items_list.add_item(item_data)
+            # Kiểm tra xem có đang ở chế độ chỉnh sửa không
+            if self.items_list.editing_mode:
+                # Cập nhật item hiện tại
+                self.items_list.update_edited_item(item_data)
+            else:
+                # Thêm item mới vào danh sách
+                self.items_list.add_item(item_data)
+            
             return True
             
         except ValueError as e:
@@ -129,6 +135,19 @@ class KnapsackGUI:
             }
             self.items_list.add_item(item_data)
 
+        return True
+    
+    def edit_item(self, item_data):
+        """
+        Điền thông tin item vào form để chỉnh sửa
+        
+        :param item_data: Dữ liệu item được chọn để chỉnh sửa
+        :return: True nếu điền thành công
+        """
+        # Điền các giá trị của item vào các ô input
+        self.item_form.name_var.set(str(item_data['name']))
+        self.item_form.weight_var.set(str(item_data['weight']))
+        self.item_form.value_var.set(str(item_data['value']))
         return True
 
     def remove_item(self):
