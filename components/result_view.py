@@ -12,8 +12,9 @@ class ResultsView:
         :param parent: Widget cha để chứa các widget con.
         :param solve_callback: Hàm callback được gọi khi nhấn nút 'Solve Knapsack Problem'.
         """
-        self.parent = parent  # Lưu widget cha
-        self.solve_callback = solve_callback  # Lưu hàm callback
+        self.parent = parent
+        self.solve_callback = solve_callback
+        self.is_fractional = tk.IntVar()
 
     def create(self):
         """
@@ -42,14 +43,24 @@ class ResultsView:
         self.method_dropdown.set("Chọn phương pháp giải")
         self.method_dropdown.pack(fill=tk.X, pady=(0, 15))
 
-        # Nút "Solve Knapsack Problem"
+        solve_frame = ttk.Frame(frame)
+        solve_frame.pack(fill=tk.X)
+
+        # Checkbox cho phép chia nhỏ sản phẩm
+        ttk.Checkbutton(
+            solve_frame,
+            text="Cho phép chia nhỏ",
+            variable=self.is_fractional
+        ).pack(side=tk.LEFT, padx=(0, 5), anchor=tk.CENTER)
+
+        # Nút giải bài toán knapsack
         ttk.Button(
-            frame,
+            solve_frame,
             text="Giải Bài Toán Knapsack",
             command=self.solve_callback,
             bootstyle="success-outline",
             padding=10
-        ).pack(fill=tk.X, pady=(0, 15))
+        ).pack(side=tk.RIGHT, pady=(0, 15))
 
         # LabelFrame con để hiển thị chi tiết lời giải
         results_frame = ttk.LabelFrame(
@@ -80,11 +91,18 @@ class ResultsView:
         scroll.config(command=self.result_text.yview)
 
         return frame  # Trả về frame đã tạo
+    
     def get_selected_method(self):
         """
         Lấy phương pháp giải bài toán được chọn từ giao diện.
         """
         return self.method_var.get()
+    
+    def get_is_fractional(self):
+        """
+        Lấy giá trị xác định xem bài toán knapsack có cho phép chia nhỏ hay không.
+        """
+        return self.is_fractional.get()
 
     def display_results(self, solution, summary):
         """
@@ -107,13 +125,23 @@ class ResultsView:
 
         # Lặp qua từng item trong lời giải và hiển thị thông tin chi tiết
         for item in solution:
-            self.result_text.insert(
-                tk.END, 
-                f"• {item.name}\n"
-                f"  KHỐI LƯỢNG: {item.weight:.2f} kg\n"
-                f"  GIÁ TRỊ: ${item.value:.2f}\n"
-                f"  Giá trị/Trọng lượng: ${item.ratio:.2f}/kg\n\n"
-            )
+            if isinstance(item, tuple):
+                self.result_text.insert(
+                    tk.END, 
+                    f"• {item[0].name}\n"
+                    f"  KHỐI LƯỢNG: {item[0].weight:.2f} kg\n"
+                    f"  GIÁ TRỊ: ${item[0].value:.2f}\n"
+                    f"  TỈ LỆ CHIA NHỎ: {item[1]:.2f}\n"
+                    f"  Giá trị/Trọng lượng: ${item[0].ratio:.2f}/kg\n\n"
+                )
+            else:
+                self.result_text.insert(
+                    tk.END, 
+                    f"• {item.name}\n"
+                    f"  KHỐI LƯỢNG: {item.weight:.2f} kg\n"
+                    f"  GIÁ TRỊ: ${item.value:.2f}\n"
+                    f"  Giá trị/Trọng lượng: ${item.ratio:.2f}/kg\n\n"
+                )
         
         # Hiển thị dòng phân cách và tiêu đề "Summary"
         self.result_text.insert(tk.END, "="*50 + "\n")

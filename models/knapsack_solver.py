@@ -51,11 +51,31 @@ class KnapsackSolver:  # Lớp giải bài toán túi ba lô
                 current_weight += item.weight  
             
         return self.solution
+    
+    def solve_greedy_fractional(self):
+        sorted_items = sorted(self.items, key=lambda x: x.ratio, reverse=True)
+
+        remaining_capacity = self.capacity
+        self.solution = []
+
+        for item in sorted_items:
+            if item.weight <= remaining_capacity:
+                self.solution.append((item, 1))
+                remaining_capacity -= item.weight
+            else:
+                self.solution.append((item, remaining_capacity / item.weight))
+                break
+        
+        return self.solution
 
     def get_total_value(self):
         # Tính tổng giá trị của các món đồ trong lời giải
+        if all(isinstance(item, tuple) for item in self.solution):
+            return sum(item[0].value * item[1] for item in self.solution)
         return sum(item.value for item in self.solution)
     
     def get_total_weight(self):
         # Tính tổng trọng lượng của các món đồ trong lời giải
+        if all(isinstance(item, tuple) for item in self.solution):
+            return sum(item[0].weight * item[1] for item in self.solution)
         return sum(item.weight for item in self.solution)
