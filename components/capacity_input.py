@@ -7,7 +7,8 @@ import ttkbootstrap as ttk  # Thư viện bootstrap để cải thiện giao di�
 class CapacityInput:
     def __init__(self, parent):
         """
-        Hàm khởi tạo lớp CapacityInput
+        Hàm khởi tạo lớp CapacityInput.
+
         :param parent: Widget cha chứa input (ví dụ: một Frame hoặc cửa sổ chính)
         """
         self.parent = parent  # Lưu tham chiếu đến widget cha
@@ -15,7 +16,8 @@ class CapacityInput:
 
     def create(self):
         """
-        Tạo và cấu hình giao diện nhập tải trọng xe tải
+        Tạo và cấu hình giao diện nhập tải trọng xe tải.
+
         :return: Frame chứa thành phần giao diện
         """
         # Tạo một Frame để chứa nhãn và ô nhập liệu
@@ -42,10 +44,19 @@ class CapacityInput:
 
     def get_capacity(self):
         """
-        Lấy giá trị tải trọng từ ô nhập liệu
+        Lấy giá trị tải trọng từ ô nhập liệu.
+
         :return: Giá trị tải trọng (float)
         """
         try:
-            return float(self.capacity_var.get())  # Trả về giá trị từ biến capacity_var dưới dạng số thực
+            return float(self.capacity_var.get())
         except ValueError:
             raise ValueError("Vui lòng nhập tải trọng hợp lệ (số thực).")
+        
+    def set_capacity(self, capacity):
+        """
+        Thiết lập giá trị tải trọng trên ô nhập liệu. Hàm có hiệu lực khi đọc từ file test case.
+
+        :param capacity: Giá trị tải trọng (float)
+        """
+        self.capacity_var.set(capacity)
